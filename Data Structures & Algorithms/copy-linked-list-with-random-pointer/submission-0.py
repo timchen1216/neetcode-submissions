@@ -1,0 +1,25 @@
+"""
+import copy
+# Definition for a Node.
+class Node:
+    def __init__(self, x: int, next: 'Node' = None, random: 'Node' = None):
+        self.val = int(x)
+        self.next = next
+        self.random = random
+"""
+
+class Solution:
+    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        old_to_new: dict[Optional[Node], Optional[Node]] = {None: None}
+        curr = head
+        while curr:
+            new = Node(curr.val)
+            old_to_new[curr] = new
+            curr = curr.next
+
+        cur = head
+        while cur:
+            old_to_new[cur].next = old_to_new[cur.next]
+            old_to_new[cur].random = old_to_new[cur.random]
+            cur = cur.next
+        return old_to_new[head]
